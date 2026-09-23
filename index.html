@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Home | Cesar Espitia</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body data-page="home">
+<header class="site-header">
+  <div class="container header-inner">
+    <a href="index.html" class="logo">Cesar Espitia</a>
+    <nav>
+      <ul class="nav-list">
+        <li><a href="index.html" data-page="home">Home</a></li>
+        <li><a href="media.html" data-page="media">Media</a></li>
+        <li><a href="future.html" data-page="future">Future</a></li>
+        <li><a href="hobbies.html" data-page="hobbies">Hobbies</a></li>
+        <li><a href="projects.html" data-page="projects">Projects</a></li>
+        <li><a href="admin.html" data-page="admin">Admin</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+<main>
+  <section class="hero container">
+    <img class="profile-photo" src="assets/images/profile.svg" alt="Photo of Cesar Espitia">
+    <div class="hero-text">
+      <h1>Cesar Espitia</h1>
+      <p>Welcome to my personal website. Explore my story, media, goals, and projects.</p>
+    </div>
+  </section>
+
+  <section class="container section">
+    <h2>About Me</h2>
+    <!-- BIOGRAPHY: exactly 2 or 3 <p> elements. Edit these. -->
+    <p>Hi, my name is Cesar Espitia. I am a student working on building my skills in web development and technology. I created this site to share who I am, what I am working on, and where I hope to go.</p>
+    <p>Outside of school I enjoy learning new things, working on creative projects, and spending time with the people and activities that inspire me. Feel free to browse the pages above to learn more.</p>
+
+    <h3>Highlights</h3>
+    <div class="grid-9">
+    <article class="card">
+      <img src="assets/images/placeholder-1.svg" alt="Blog slot 1">
+      <div class="card-body">
+        <h3>Blog Card 1</h3>
+        <p>Replace this text with a short post about you, an update, or a highlight. Edit this card in index.html.</p>
+      </div>
+    </article>
+    <article class="card">
+      <img src="assets/images/placeholder-2.svg" alt="Blog slot 2">
+      <div class="card-body">
+        <h3>Blog Card 2</h3>
+        <p>Replace this text with a short post about you, an update, or a highlight. Edit this card in index.html.</p>
+      </div>
+    </article>
+    <article class="card">
+      <img src="assets/images/placeholder-3.svg" alt="Blog slot 3">
+      <div class="card-body">
+        <h3>Blog Card 3</h3>
+        <p>Replace this text with a short post about you, an update, or a highlight. Edit this card in index.html.</p>
+      </div>
+    </article>
+    <article class="card">
+      <img src="assets/images/placeholder-4.svg" alt="Blog slot 4">
+      <div class="card-body">
+        <h3>Blog Card 4</h3>
+        <p>Replace this text with a short post about you, an update, or a highlight. Edit this card in index.html.</p>
+      </div>
+    </article>
+    <article class="card">
+      <img src="assets/images/placeholder-5.svg" alt="Blog slot 5">
+      <div class="card-body">
+        <h3>Blog Card 5</h3>
+        <p>Replace this text with a short post about you, an update, or a highlight. Edit this card in index.html.</p>
+      </div>
+    </article>
+    <article class="card">
+      <img src="assets/images/placeholder-6.svg" alt="Blog slot 6">
+      <div class="card-body">
+        <h3>Blog Card 6</h3>
+        <p>Replace this text with a short post about you, an update, or a highlight. Edit this card in index.html.</p>
+      </div>
+    </article>
+    <article class="card">
+      <img src="assets/images/placeholder-7.svg" alt="Blog slot 7">
+      <div class="card-body">
+        <h3>Blog Card 7</h3>
+        <p>Replace this text with a short post about you, an update, or a highlight. Edit this card in index.html.</p>
+      </div>
+    </article>
+    <article class="card">
+      <img src="assets/images/placeholder-8.svg" alt="Blog slot 8">
+      <div class="card-body">
+        <h3>Blog Card 8</h3>
+        <p>Replace this text with a short post about you, an update, or a highlight. Edit this card in index.html.</p>
+      </div>
+    </article>
+    <article class="card">
+      <img src="assets/images/placeholder-9.svg" alt="Blog slot 9">
+      <div class="card-body">
+        <h3>Blog Card 9</h3>
+        <p>Replace this text with a short post about you, an update, or a highlight. Edit this card in index.html.</p>
+      </div>
+    </article>
+    </div>
+  </section>
+
+  <section class="container section contact-section" id="contact">
+    <h2>Contact</h2>
+    <p>Connect with me on social media, or send me a message below.</p>
+    <ul class="social-list social-contact">
+      <li><a href="https://github.com/Cesar1289" target="_blank" rel="noopener">GitHub</a></li>
+      <li><a href="https://www.linkedin.com/" target="_blank" rel="noopener">LinkedIn</a></li>
+      <li><a href="https://www.instagram.com/" target="_blank" rel="noopener">Instagram</a></li>
+      <li><a href="mailto:cesar@example.com">Email</a></li>
+    </ul>
+
+    <form id="contact-form" class="contact-form" novalidate>
+      <div class="form-row">
+        <label>First Name<input type="text" name="firstName" required></label>
+        <label>Last Name<input type="text" name="lastName" required></label>
+      </div>
+      <label>Email<input type="email" name="email" required></label>
+      <label>Reason for Contact
+        <select name="reason" required>
+          <option value="">-- Select a reason --</option>
+          <option value="Comment">Comment</option>
+          <option value="Question">Question</option>
+          <option value="Partnership">Partnership</option>
+          <option value="Opportunity">Opportunity</option>
+          <option value="Other">Other</option>
+        </select>
+      </label>
+      <label>Message<textarea name="message" rows="5" required></textarea></label>
+      <button type="submit">Send Message</button>
+      <p id="form-status" class="form-status" role="status"></p>
+    </form>
+  </section>
+</main>
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <p>&copy; 2026 Cesar Espitia. All rights reserved.</p>
+    <ul class="social-list">
+      <li><a href="https://github.com/Cesar1289" target="_blank" rel="noopener">GitHub</a></li>
+      <li><a href="https://www.linkedin.com/" target="_blank" rel="noopener">LinkedIn</a></li>
+      <li><a href="https://www.instagram.com/" target="_blank" rel="noopener">Instagram</a></li>
+      <li><a href="mailto:cesar@example.com">Email</a></li>
+    </ul>
+  </div>
+</footer>
+<script src="script.js"></script>
+</body>
+</html>
