@@ -1,140 +1,163 @@
 // Server-side JavaScript (Express)
-// Contact form persistence uses Replit App Storage at: data/contactReceived.json
+// Contact form persistence uses Replit App Storage at data/contactReceived.json.
 const express = require("express");
 const session = require("express-session");
-const path = require("path");
-const fs = require("fs");
+const { Client } = require("@replit/object-storage");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 const DATA_KEY = "data/contactReceived.json";
-const LOCAL_FILE = path.join(__dirname, "data", "contactReceived.json");
 const REASONS = ["Comment", "Question", "Partnership", "Opportunity", "Other"];
+const storage = new Client();
+// The SDK initializes its bucket asynchronously. Keep a rejected local
+// development initialization from becoming an unhandled process error; API
+// requests still report the storage failure with HTTP 500.
+if (storage.state && storage.state.promise) storage.state.promise.catch(() => {});
 
-app.use(express.json());
+app.set("trust proxy", 1);
+app.use(express.json({ limit: "50kb" }));
 app.use(session({
-  secret: process.env.SESSION_SECRET || "about-me-website-secret",
+  secret: process.env.SESSION_SECRET || "local-development-session-secret",
   resave: false,
   saveUninitialized: false,
-  cookie: { httpOnly: true }
+  cookie: {
+    httpOnly: true,
+    sameSite: "lax",
+    secure: process.env.NODE_ENV === "production"
+  }
 }));
 
-// ---------- App Storage layer (Replit App Storage first, local file fallback) ----------
-let replitStorage = null;
-try {
-  const mod = require("@replit/storage");
-  if (mod.Storage) replitStorage = new mod.Storage();
-  else if (typeof mod.get === "function") replitStorage = mod;
-} catch (e) { /* not on Replit */ }
-
-async function readMessages() {
-  let raw = null;
-  if (replitStorage) {
-    raw = await replitStorage.get(DATA_KEY);
-    if (typeof raw === "string") raw = JSON.parse(raw);
-  } else if (process.env.REPLIT_DB_URL) {
-    const res = await fetch(process.env.REPLIT_DB_URL + "/" + encodeURIComponent(DATA_KEY));
-    if (res.status === 200) raw = JSON.parse(await res.text());
-  } else {
-    if (fs.existsSync(LOCAL_FILE)) raw = JSON.parse(fs.readFileSync(LOCAL_FILE, "utf8"));
-  }
-  if (!Array.isArray(raw)) raw = []; // initialize to [] if missing
-  return raw;
+// App Storage is the only production data source. Writes are serialized so two
+// visitors submitting at nearly the same time cannot overwrite one another.
+let writeQueue = Promise.resolve();
+function withStorageLock(task) {
+  const next = writeQueue.then(task, task);
+  writeQueue = next.catch(() => {});
+  return next;
 }
 
-async function writeMessages(arr) {
-  const json = JSON.stringify(arr, null, 2);
-  if (replitStorage) {
-    await replitStorage.set(DATA_KEY, json);
-  } else if (process.env.REPLIT_DB_URL) {
-    await fetch(process.env.REPLIT_DB_URL, {
-      method: "POST",
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: DATA_KEY + "=" + encodeURIComponent(json)
-    });
-  } else {
-    fs.mkdirSync(path.dirname(LOCAL_FILE), { recursive: true });
-    fs.writeFileSync(LOCAL_FILE, json);
+function isMissingObject(error) {
+  const message = String(error && (error.message || error.code || error));
+  return /404|not found|no such object|does not exist/i.test(message);
+}
+
+async function readMessages() {
+  const result = await storage.downloadAsText(DATA_KEY);
+  if (result.ok) {
+    const messages = JSON.parse(result.value);
+    if (!Array.isArray(messages)) throw new Error("Stored contact data is not a JSON array.");
+    return messages;
   }
+
+  if (!isMissingObject(result.error)) {
+    throw new Error("App Storage read failed: " + String(result.error));
+  }
+
+  const initialize = await storage.uploadFromText(DATA_KEY, "[]");
+  if (!initialize.ok) {
+    throw new Error("App Storage initialization failed: " + String(initialize.error));
+  }
+  return [];
+}
+
+async function writeMessages(messages) {
+  const result = await storage.uploadFromText(DATA_KEY, JSON.stringify(messages, null, 2));
+  if (!result.ok) {
+    throw new Error("App Storage write failed: " + String(result.error));
+  }
+}
+
+function validSubmission(body) {
+  const { firstName, lastName, email, reason, message } = body || {};
+  return Boolean(
+    typeof firstName === "string" && firstName.trim() &&
+    typeof lastName === "string" && lastName.trim() &&
+    typeof email === "string" && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim()) &&
+    REASONS.includes(reason) &&
+    typeof message === "string" && message.trim()
+  );
 }
 
 // ---------- Public contact endpoint ----------
 app.post("/api/contact", async (req, res) => {
-  try {
-    const { firstName, lastName, email, reason, message } = req.body || {};
-    const valid =
-      firstName && typeof firstName === "string" && firstName.trim() &&
-      lastName && typeof lastName === "string" && lastName.trim() &&
-      email && typeof email === "string" && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim()) &&
-      REASONS.includes(reason) &&
-      message && typeof message === "string" && message.trim();
-    if (!valid) return res.status(400).json({ error: "Invalid submission. All fields are required and the email must be valid." });
+  if (!validSubmission(req.body)) {
+    return res.status(400).json({
+      error: "Invalid submission. Complete every field and enter a valid email address."
+    });
+  }
 
-    const messages = await readMessages();
-    const record = {
-      id: Date.now().toString(36) + "-" + Math.random().toString(36).slice(2, 10),
-      firstName: firstName.trim(),
-      lastName: lastName.trim(),
-      email: email.trim(),
-      reason,
-      message: message.trim(),
-      submittedAt: new Date().toISOString(),
-      replied: false,
-      repliedAt: null
-    };
-    messages.push(record);
-    await writeMessages(messages);
-    res.status(201).json(record);
-  } catch (err) {
-    console.error("Storage failure:", err);
-    res.status(500).json({ error: "Could not save your message. Please try again later." });
+  try {
+    const record = await withStorageLock(async () => {
+      const messages = await readMessages();
+      const saved = {
+        id: `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 10)}`,
+        firstName: req.body.firstName.trim(),
+        lastName: req.body.lastName.trim(),
+        email: req.body.email.trim(),
+        reason: req.body.reason,
+        message: req.body.message.trim(),
+        submittedAt: new Date().toISOString(),
+        replied: false,
+        repliedAt: null
+      };
+      messages.push(saved);
+      await writeMessages(messages);
+      return saved;
+    });
+    return res.status(201).json(record);
+  } catch (error) {
+    console.error("Contact storage failure:", error);
+    return res.status(500).json({ error: "Could not save your message. Please try again later." });
   }
 });
 
-// ---------- Admin endpoints (password from Replit Secrets) ----------
+// ---------- Admin endpoints (password is read only from Replit Secrets) ----------
 app.post("/api/admin/login", (req, res) => {
-  const { password } = req.body || {};
+  const password = typeof req.body?.password === "string" ? req.body.password : "";
   if (!process.env.ADMIN_PASSWORD || password !== process.env.ADMIN_PASSWORD) {
     return res.status(401).json({ error: "Incorrect password." });
   }
   req.session.admin = true;
-  res.json({ success: true });
+  return res.json({ success: true });
 });
 
 function requireAdmin(req, res, next) {
-  if (!req.session || !req.session.admin) {
-    return res.status(401).json({ error: "Unauthorized" });
-  }
+  if (!req.session?.admin) return res.status(401).json({ error: "Unauthorized" });
   next();
 }
 
 app.get("/api/admin/messages", requireAdmin, async (req, res) => {
   try {
     const messages = await readMessages();
-    messages.sort((a, b) => new Date(b.submittedAt) - new Date(a.submittedAt)); // newest first
-    res.json(messages);
-  } catch (err) {
-    res.status(500).json({ error: "Could not read messages." });
+    messages.sort((a, b) => new Date(b.submittedAt) - new Date(a.submittedAt));
+    return res.json(messages);
+  } catch (error) {
+    console.error("Admin read failure:", error);
+    return res.status(500).json({ error: "Could not read messages." });
   }
 });
 
 app.patch("/api/admin/messages/:id/replied", requireAdmin, async (req, res) => {
   try {
-    const messages = await readMessages();
-    const msg = messages.find((m) => m.id === req.params.id);
-    if (!msg) return res.status(404).json({ error: "Message not found." });
-    msg.replied = true;
-    msg.repliedAt = new Date().toISOString();
-    await writeMessages(messages);
-    res.json(msg);
-  } catch (err) {
-    res.status(500).json({ error: "Could not update message." });
+    const updated = await withStorageLock(async () => {
+      const messages = await readMessages();
+      const message = messages.find((item) => item.id === req.params.id);
+      if (!message) return null;
+      message.replied = true;
+      message.repliedAt = new Date().toISOString();
+      await writeMessages(messages);
+      return message;
+    });
+    if (!updated) return res.status(404).json({ error: "Message not found." });
+    return res.json(updated);
+  } catch (error) {
+    console.error("Admin update failure:", error);
+    return res.status(500).json({ error: "Could not update message." });
   }
 });
 
 // ---------- Static site ----------
 app.use(express.static(__dirname));
-
 app.use((req, res) => res.status(404).send("404: Page not found"));
 
 app.listen(PORT, "0.0.0.0", () => {
