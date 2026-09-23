@@ -37,7 +37,14 @@
         dashboardSection.hidden = false;
         loadMessages();
       } else {
-        loginStatus.textContent = "Incorrect password. Access denied.";
+        return res.json().catch(function () { return {}; }).then(function (body) {
+          loginStatus.textContent = body.error || "Incorrect password. Access denied.";
+        });
+      }
+    }).catch(function () {
+      loginStatus.textContent = "Unable to reach the server. Please try again.";
+    }).finally(function () {
+      if (loginStatus.textContent) {
         loginStatus.className = "form-status error";
       }
     });
@@ -61,10 +68,14 @@
         return res.json();
       })
       .then(function (data) {
-        messages = data;
+        messages = Array.isArray(data) ? data : [];
         renderAll();
       })
-      .catch(function () {});
+      .catch(function () {
+        loginStatus.textContent = "Could not load messages.";
+        loginStatus.className = "form-status error";
+        showLogin();
+      });
   }
 
   function showLogin() {
@@ -154,6 +165,7 @@
         credentials: "same-origin"
       }).then(function (res) {
         if (res.ok) loadMessages();
+        else if (res.status === 401) showLogin();
       });
     }
   });
