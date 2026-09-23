@@ -23,90 +23,91 @@
   </div>
 </header>
 <main class="container section">
-  <h1>Media Gallery</h1>
-  <p>A collection of photos, videos, and social posts featuring me and the things I care about. Hover over a card, and click to view the media larger or open the original post.</p>
+  <div class="page-intro">
+    <p class="eyebrow">Snapshots &amp; process</p>
+    <h1>Media Gallery</h1>
+    <p>A visual collection of the work, learning, and interests that shape me. Hover over a card for a lift, then click an image or video to view it larger.</p>
+  </div>
   <div class="grid-9 media-grid">
-    <article class="card">
-      <img src="assets/images/placeholder-1.svg" alt="Media 1">
+    <article class="card media-card" data-media-src="assets/images/profile.svg">
+      <img src="assets/images/profile.svg" alt="Illustrated profile portrait of Cesar Espitia">
       <div class="card-body">
-        <h3>Photo 1</h3>
-        <p>Caption: describe this photo of me. Click for a larger view.</p>
+        <h3>Meet Cesar</h3>
+        <p>A profile portrait that introduces the person behind this site.</p>
       </div>
     </article>
-    <article class="card">
-      <img src="assets/images/placeholder-2.svg" alt="Media 2">
+    <article class="card media-card" data-media-src="assets/images/placeholder-1.svg">
+      <img src="assets/images/placeholder-1.svg" alt="Cesar's web development foundation">
       <div class="card-body">
-        <h3>Photo 2</h3>
-        <p>Caption: describe this photo of me. Click for a larger view.</p>
+        <h3>Building the Foundation</h3>
+        <p>Learning the HTML, CSS, and JavaScript fundamentals behind this website.</p>
       </div>
     </article>
-    <article class="card">
-      <img src="assets/images/placeholder-3.svg" alt="Media 3">
+    <article class="card media-card" data-media-src="assets/images/placeholder-2.svg">
+      <img src="assets/images/placeholder-2.svg" alt="Cesar practicing JavaScript">
       <div class="card-body">
-        <h3>Photo 3</h3>
-        <p>Caption: describe this photo of me. Click for a larger view.</p>
+        <h3>Practice Makes Progress</h3>
+        <p>Each small experiment turns a new concept into a skill I can use.</p>
       </div>
     </article>
-    <article class="card">
-      <img src="assets/images/placeholder-4.svg" alt="Media 4">
+    <article class="card media-card" data-media-src="assets/images/placeholder-3.svg">
+      <img src="assets/images/placeholder-3.svg" alt="Cesar's project planning board">
       <div class="card-body">
-        <h3>Photo 4</h3>
-        <p>Caption: describe this photo of me. Click for a larger view.</p>
+        <h3>From Idea to Project</h3>
+        <p>Sketching a plan before turning an idea into something people can use.</p>
       </div>
     </article>
-    <article class="card video-card">
-      <video controls preload="metadata" src="assets/videos/my-video.mp4"></video>
+    <article class="card media-card video-card" data-media-type="video" data-media-src="assets/videos/cesar-coding.mp4">
+      <video controls preload="metadata" poster="assets/images/placeholder-4.svg">
+        <source src="assets/videos/cesar-coding.mp4" type="video/mp4">
+        Your browser does not support the video element.
+      </video>
       <div class="card-body">
-        <h3>Video 1</h3>
-        <p>Caption: a short video about me. Add your MP4 to assets/videos/my-video.mp4.</p>
+        <h3>Coding in Motion</h3>
+        <p>A short visual loop inspired by the focus and momentum of a coding session.</p>
       </div>
     </article>
-    <article class="card social-card">
+    <article class="card media-card social-card" data-media-type="link" data-original-url="https://github.com/Cesar1289">
       <div class="social-embed">
         <blockquote class="embed-placeholder">
-          <p>Social Media Post</p>
-          <p>Replace this block with an embed code from Instagram/X, or click below to open the original post.</p>
-          <a href="https://www.instagram.com/" target="_blank" rel="noopener">Open original post</a>
+          <p class="social-icon" aria-hidden="true">GH</p>
+          <p>See my public coding work and repositories on GitHub.</p>
+          <a href="https://github.com/Cesar1289" target="_blank" rel="noopener">Open GitHub profile</a>
         </blockquote>
       </div>
       <div class="card-body">
-        <h3>Social Post</h3>
-        <p>Caption: a post from my social media that shows something about me.</p>
+        <h3>Public Work</h3>
+        <p>A social profile that connects this personal story to the projects I share publicly.</p>
       </div>
     </article>
-    <article class="card">
-      <img src="assets/images/placeholder-5.svg" alt="Media 5">
+    <article class="card media-card" data-media-src="assets/images/placeholder-5.svg">
+      <img src="assets/images/placeholder-5.svg" alt="Cesar's long-term learning goals">
       <div class="card-body">
-        <h3>Photo 5</h3>
-        <p>Caption: describe this photo of me. Click for a larger view.</p>
+        <h3>Keep Learning</h3>
+        <p>Technology changes quickly, so curiosity and consistency matter just as much as syntax.</p>
       </div>
     </article>
-    <article class="card">
-      <img src="assets/images/placeholder-6.svg" alt="Media 6">
+    <article class="card media-card" data-media-src="assets/images/placeholder-6.svg">
+      <img src="assets/images/placeholder-6.svg" alt="Cesar collaborating with a team">
       <div class="card-body">
-        <h3>Photo 6</h3>
-        <p>Caption: describe this photo of me. Click for a larger view.</p>
+        <h3>Better Together</h3>
+        <p>Feedback and collaboration make a good project clearer, stronger, and more useful.</p>
       </div>
     </article>
-    <article class="card">
-      <img src="assets/images/placeholder-7.svg" alt="Media 7">
+    <article class="card media-card" data-media-src="assets/images/placeholder-7.svg">
+      <img src="assets/images/placeholder-7.svg" alt="Cesar's future in software development">
       <div class="card-body">
-        <h3>Photo 7</h3>
-        <p>Caption: describe this photo of me. Click for a larger view.</p>
-      </div>
-    </article>
-    <article class="card">
-      <img src="assets/images/placeholder-8.svg" alt="Media 8">
-      <div class="card-body">
-        <h3>Photo 8</h3>
-        <p>Caption: describe this photo of me. Click for a larger view.</p>
+        <h3>Looking Ahead</h3>
+        <p>A reminder of the software development career I am working toward over the next five years.</p>
       </div>
     </article>
   </div>
 </main>
-<div id="lightbox" class="lightbox" hidden>
-  <button class="lightbox-close" id="lightbox-close">&times;</button>
-  <img id="lightbox-img" src="" alt="Enlarged media">
+<div id="lightbox" class="lightbox" hidden role="dialog" aria-modal="true" aria-label="Expanded media">
+  <button class="lightbox-close" id="lightbox-close" type="button" aria-label="Close expanded media">&times;</button>
+  <img id="lightbox-img" src="" alt="Enlarged media" hidden>
+  <video id="lightbox-video" controls hidden></video>
+  <a id="lightbox-link" class="lightbox-link" href="" target="_blank" rel="noopener" hidden>Open the original post</a>
 </div>
 <footer class="site-footer">
   <div class="container footer-inner">
