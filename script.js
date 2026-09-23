@@ -35,6 +35,10 @@
         return;
       }
 
+      var submitButton = form.querySelector("button[type='submit']");
+      submitButton.disabled = true;
+      submitButton.textContent = "Sending…";
+
       fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -56,6 +60,10 @@
         .catch(function () {
           status.textContent = "Network error. Please try again later.";
           status.classList.add("error");
+        })
+        .finally(function () {
+          submitButton.disabled = false;
+          submitButton.textContent = "Send Message";
         });
     });
   }
@@ -64,20 +72,48 @@
   var lightbox = document.getElementById("lightbox");
   if (lightbox) {
     var lightboxImg = document.getElementById("lightbox-img");
+    var lightboxVideo = document.getElementById("lightbox-video");
+    var lightboxLink = document.getElementById("lightbox-link");
     var closeBtn = document.getElementById("lightbox-close");
     document.querySelectorAll(".media-grid .card").forEach(function (card) {
-      card.addEventListener("click", function () {
-        var img = card.querySelector("img");
-        if (img) {
-          lightboxImg.src = img.src;
+      card.addEventListener("click", function (event) {
+        if (event && event.target.closest("a,button,video")) return;
+        var mediaType = card.getAttribute("data-media-type") || "image";
+        var mediaSrc = card.getAttribute("data-media-src");
+        var originalUrl = card.getAttribute("data-original-url");
+
+        lightboxImg.hidden = true;
+        lightboxVideo.hidden = true;
+        lightboxLink.hidden = true;
+
+        if (mediaType === "video" && mediaSrc) {
+          lightboxVideo.src = mediaSrc;
+          lightboxVideo.hidden = false;
+          lightboxVideo.play().catch(function () {});
+        } else if (mediaType === "link" && originalUrl) {
+          lightboxLink.href = originalUrl;
+          lightboxLink.hidden = false;
+        } else {
+          var img = card.querySelector("img");
+          if (!img) return;
+          lightboxImg.src = mediaSrc || img.src;
           lightboxImg.alt = img.alt;
-          lightbox.hidden = false;
+          lightboxImg.hidden = false;
         }
+        lightbox.hidden = false;
       });
     });
-    closeBtn.addEventListener("click", function () { lightbox.hidden = true; });
+    function closeLightbox() {
+      lightbox.hidden = true;
+      lightboxVideo.pause();
+      lightboxVideo.removeAttribute("src");
+    }
+    closeBtn.addEventListener("click", closeLightbox);
     lightbox.addEventListener("click", function (e) {
-      if (e.target === lightbox) lightbox.hidden = true;
+      if (e.target === lightbox) closeLightbox();
+    });
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && !lightbox.hidden) closeLightbox();
     });
   }
 })();
