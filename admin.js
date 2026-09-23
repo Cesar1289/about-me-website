@@ -3,20 +3,21 @@
   var messages = [];
   var filter = "all";
   var chart = null;
+  var q = String.fromCharCode(34); // double quote helper
 
   var loginSection = document.getElementById("login-section");
   var dashboardSection = document.getElementById("dashboard-section");
   var loginStatus = document.getElementById("login-status");
 
   function escapeHtml(s) {
-    var q = String.fromCharCode(34);
-    var a = String.fromCharCode(39);
+    var dq = String.fromCharCode(34);
+    var sq = String.fromCharCode(39);
     var out = String(s);
     out = out.split("&").join("&amp;");
     out = out.split("<").join("&lt;");
     out = out.split(">").join("&gt;");
-    out = out.split(q).join("&quot;");
-    out = out.split(a).join("&#39;");
+    out = out.split(dq).join("&quot;");
+    out = out.split(sq).join("&#39;");
     return out;
   }
 
