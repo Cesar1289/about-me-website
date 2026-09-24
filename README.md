@@ -1,28 +1,31 @@
-# Cesar Espitia — About Me Website
+# About Me Website — Cesar Espitia
 
-This is a six-page personal website built with HTML, CSS, client-side JavaScript, and an Express server:
+A personal portfolio and about-me website built with **HTML, Tailwind CSS, and JavaScript**.
 
-- `index.html` — home, biography, social links, and contact form
-- `media.html` — nine-card media gallery with image, video, and GitHub social media content
-- `future.html` — five-year plan and long-term goal
-- `hobbies.html` — interests and personal development
-- `projects.html` — projects and experience
-- `admin.html` — password-protected contact dashboard
+## Pages (single-page app with tabs)
 
-## Run
+- **Home** — hero intro, editable 3-paragraph biography (auto-saves to browser local storage), and contact section
+- **Media Gallery** — photos, a featured video, and placeholder cards
+- **5-Year Future** — goal roadmap timeline from 2026 to 2031
+- **Blog & Articles** — featured post and article cards
+- **Skills & Tech** — project and skill showcase
 
-```bash
-npm install
-npm start
-```
+## Features
 
-The website is served by `server.js`, so it can be published as a Replit app with a server-side JavaScript runtime.
+- Dark / light theme toggle (remembers your choice)
+- Responsive design for mobile and desktop
+- Editable biography that saves edits to local storage
+- Burgundy glassmorphism design
 
-## Replit setup
+## How to view it
 
-Set these values in Replit Secrets before using the admin dashboard:
+Open `index.html` in any browser, or enable GitHub Pages:
 
-- `ADMIN_PASSWORD` — the password checked by the server
-- `SESSION_SECRET` — a long random value used to sign admin sessions
+1. Go to **Settings → Pages** in this repo
+2. Under **Source**, select the `main` branch
+3. Your site will be live at `https://cesar1289.github.io/about-me-website/`
 
-Contact submissions are stored in Replit App Storage at `data/contactReceived.json`. The server creates that object with `[]` the first time it is needed, appends valid submissions, and updates the same stored JSON when an admin marks a message as replied.
+## How to edit
+
+- Edit the text directly on the page using the **Type / Edit Bio** button (saved in your browser)
+- Or edit `index.html` and commit your changes

@@ -1,155 +1,815 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Home | Cesar Espitia</title>
-<link rel="stylesheet" href="styles.css">
+<html lang="en" class="dark scroll-smooth"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cesar Espitia | About Me</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        burgundy: {
+                            50: '#fdf2f4', 100: '#fbe5e8', 200: '#f7cbd2', 300: '#f0a1ae',
+                            400: '#e46c82', 500: '#d33f5d', 600: '#be2547', 700: '#9f1a37',
+                            800: '#841931', 900: '#70192d', 950: '#3f0915'
+                        },
+                        wine: { light: '#9e2a3b', DEFAULT: '#722f37', dark: '#4a151d', deep: '#2c0a0e' }
+                    },
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; transition: background-color 0.3s ease, color 0.3s ease; }
+        .glass-card { background: rgba(255, 255, 255, 0.75); backdrop-filter: blur(12px); border: 1px solid rgba(112, 25, 45, 0.15); }
+        .dark .glass-card { background: rgba(20, 10, 14, 0.75); border: 1px solid rgba(132, 25, 49, 0.3); }
+        .glass-nav { background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(16px); }
+        .dark .glass-nav { background: rgba(15, 6, 9, 0.88); }
+        .nav-link.active { color: #be2547; font-weight: 700; border-bottom: 2px solid #be2547; }
+        .dark .nav-link.active { color: #f0a1ae; border-bottom: 2px solid #f0a1ae; }
+        .wine-gradient-text { background: linear-gradient(135deg, #be2547 0%, #841931 50%, #4a151d 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        [contenteditable="true"] { outline: 2px dashed rgba(190, 37, 71, 0.4); border-radius: 8px; padding: 8px; transition: all 0.2s ease; }
+        [contenteditable="true"]:focus { outline: 2px solid #be2547; background: rgba(132, 25, 49, 0.08); }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0f0609; }
+        ::-webkit-scrollbar-thumb { background: #841931; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #be2547; }
+    </style>
 </head>
-<body data-page="home">
-<header class="site-header">
-  <div class="container header-inner">
-    <a href="index.html" class="logo">Cesar Espitia</a>
-    <nav>
-      <ul class="nav-list">
-        <li><a href="index.html" data-page="home">Home</a></li>
-        <li><a href="media.html" data-page="media">Media</a></li>
-        <li><a href="future.html" data-page="future">Future</a></li>
-        <li><a href="hobbies.html" data-page="hobbies">Hobbies</a></li>
-        <li><a href="projects.html" data-page="projects">Projects</a></li>
-        <li><a href="admin.html" data-page="admin">Admin</a></li>
-      </ul>
-    </nav>
-  </div>
-</header>
-<main>
-  <section class="hero container">
-    <img class="profile-photo" src="assets/images/profile.svg" alt="Photo of Cesar Espitia">
-    <div class="hero-text">
-      <h1>Cesar Espitia</h1>
-      <p>Welcome to my personal website. Explore my story, media, goals, and projects.</p>
-    </div>
-  </section>
+<body class="bg-stone-50 dark:bg-[#0f0609] text-stone-800 dark:text-stone-200 antialiased min-h-screen flex flex-col justify-between selection:bg-burgundy-800 selection:text-white">
 
-  <section class="container section">
-    <h2>About Me</h2>
-    <!-- Keep this biography to two or three paragraphs. -->
-    <p>Hi, my name is Cesar Espitia. I am a student working on building my skills in web development and technology. I created this site to share who I am, what I am working on, and where I hope to go.</p>
-    <p>Outside of school I enjoy learning new things, working on creative projects, and spending time with the people and activities that inspire me. Feel free to browse the pages above to learn more.</p>
-  </section>
+    <!-- Universal Header -->
+    <header class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b border-burgundy-900/10 dark:border-burgundy-800/20 glass-nav">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <!-- Brand Logo -->
+            <button onclick="switchTab('home')" class="flex items-center gap-3 group text-left">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-burgundy-700 via-burgundy-800 to-wine-dark flex items-center justify-center text-white font-bold text-xl shadow-md shadow-burgundy-900/30 group-hover:scale-105 transition-transform duration-300">
+                    CE
+                </div>
+                <div class="flex flex-col">
+                    <span class="font-extrabold text-lg leading-none tracking-tight text-stone-900 dark:text-white">Cesar Espitia</span>
+                    <span class="text-xs text-burgundy-700 dark:text-burgundy-400 font-mono mt-0.5">Student &amp; Creator</span>
+                </div>
+            </button>
 
-  <section class="container section" aria-labelledby="highlights-title">
-    <h2 id="highlights-title">Highlights</h2>
-    <div class="grid-9">
-    <article class="card">
-      <img src="assets/images/placeholder-1.svg" alt="Blog slot 1">
-      <div class="card-body">
-        <h3>Learning by Building</h3>
-        <p>Every page on this site is practice with structure, styling, and clear communication.</p>
-      </div>
-    </article>
-    <article class="card">
-      <img src="assets/images/placeholder-2.svg" alt="Blog slot 2">
-      <div class="card-body">
-        <h3>Curiosity in Action</h3>
-        <p>I keep exploring new tools so technology feels approachable instead of intimidating.</p>
-      </div>
-    </article>
-    <article class="card">
-      <img src="assets/images/placeholder-3.svg" alt="Blog slot 3">
-      <div class="card-body">
-        <h3>Creative Projects</h3>
-        <p>Making something useful is the fastest way for me to turn an idea into a real skill.</p>
-      </div>
-    </article>
-    <article class="card">
-      <img src="assets/images/placeholder-4.svg" alt="Blog slot 4">
-      <div class="card-body">
-        <h3>Small Improvements</h3>
-        <p>Progress comes from showing up, testing the next idea, and improving what did not work.</p>
-      </div>
-    </article>
-    <article class="card">
-      <img src="assets/images/placeholder-5.svg" alt="Blog slot 5">
-      <div class="card-body">
-        <h3>Working with Others</h3>
-        <p>Feedback helps me see a project from another person’s point of view and make it stronger.</p>
-      </div>
-    </article>
-    <article class="card">
-      <img src="assets/images/placeholder-6.svg" alt="Blog slot 6">
-      <div class="card-body">
-        <h3>Future Focus</h3>
-        <p>I am building a foundation for a future in software development one project at a time.</p>
-      </div>
-    </article>
-    <article class="card">
-      <img src="assets/images/placeholder-7.svg" alt="Blog slot 7">
-      <div class="card-body">
-        <h3>Stay Grounded</h3>
-        <p>School, family, hobbies, and rest all help me bring better energy to the work I care about.</p>
-      </div>
-    </article>
-    <article class="card">
-      <img src="assets/images/placeholder-8.svg" alt="Blog slot 8">
-      <div class="card-body">
-        <h3>Share the Process</h3>
-        <p>This website is a place to share what I am learning, not just a final list of accomplishments.</p>
-      </div>
-    </article>
-    <article class="card">
-      <img src="assets/images/placeholder-9.svg" alt="Blog slot 9">
-      <div class="card-body">
-        <h3>Make an Impact</h3>
-        <p>My goal is to build technology that is useful, understandable, and welcoming to the people using it.</p>
-      </div>
-    </article>
-    </div>
-  </section>
+            <!-- Universal Desktop Navigation -->
+            <nav class="hidden md:flex items-center space-x-6 lg:space-x-8">
+                <button onclick="switchTab('home')" id="nav-home" class="nav-link active py-2 text-sm font-semibold hover:text-burgundy-700 dark:hover:text-burgundy-300 transition-colors">Home</button>
+                <button onclick="switchTab('media')" id="nav-media" class="nav-link py-2 text-sm font-semibold hover:text-burgundy-700 dark:hover:text-burgundy-300 transition-colors">Media Gallery</button>
+                <button onclick="switchTab('future')" id="nav-future" class="nav-link py-2 text-sm font-semibold hover:text-burgundy-700 dark:hover:text-burgundy-300 transition-colors">5-Year Future</button>
+                <button onclick="switchTab('blog')" id="nav-blog" class="nav-link py-2 text-sm font-semibold hover:text-burgundy-700 dark:hover:text-burgundy-300 transition-colors">Blog &amp; Articles</button>
+                <button onclick="switchTab('projects')" id="nav-projects" class="nav-link py-2 text-sm font-semibold hover:text-burgundy-700 dark:hover:text-burgundy-300 transition-colors">Research &amp; Tech</button>
+            </nav>
 
-  <section class="container section contact-section" id="contact">
-    <h2>Contact</h2>
-    <p>Connect with me on social media, or send me a message below.</p>
-    <ul class="social-list social-contact">
-      <li><a href="https://github.com/Cesar1289" target="_blank" rel="noopener">GitHub</a></li>
-      <li><a href="https://www.linkedin.com/" target="_blank" rel="noopener">LinkedIn</a></li>
-      <li><a href="https://www.instagram.com/" target="_blank" rel="noopener">Instagram</a></li>
-      <li><a href="mailto:cesar@example.com">Email</a></li>
-    </ul>
+            <!-- Theme Toggle & CTA -->
+            <div class="flex items-center space-x-3">
+                <button id="themeToggle" class="p-2.5 rounded-xl bg-burgundy-900/5 dark:bg-burgundy-950/60 hover:bg-burgundy-800/10 dark:hover:bg-burgundy-900/40 text-burgundy-800 dark:text-burgundy-300 border border-burgundy-900/10 dark:border-burgundy-800/30 transition-all duration-300" aria-label="Toggle Dark Theme">
+                    <i class="fa-solid fa-moon dark:hidden text-lg"></i>
+                    <i class="fa-solid fa-sun hidden dark:block text-lg"></i>
+                </button>
 
-    <form id="contact-form" class="contact-form" novalidate>
-      <div class="form-row">
-        <label>First Name<input type="text" name="firstName" required></label>
-        <label>Last Name<input type="text" name="lastName" required></label>
-      </div>
-      <label>Email<input type="email" name="email" required></label>
-      <label>Reason for Contact
-        <select name="reason" required>
-          <option value="">-- Select a reason --</option>
-          <option value="Comment">Comment</option>
-          <option value="Question">Question</option>
-          <option value="Partnership">Partnership</option>
-          <option value="Opportunity">Opportunity</option>
-          <option value="Other">Other</option>
-        </select>
-      </label>
-      <label>Message<textarea name="message" rows="5" required></textarea></label>
-      <button type="submit">Send Message</button>
-      <p id="form-status" class="form-status" role="status"></p>
-    </form>
-  </section>
-</main>
-<footer class="site-footer">
-  <div class="container footer-inner">
-    <p>&copy; 2026 Cesar Espitia. All rights reserved.</p>
-    <ul class="social-list">
-      <li><a href="https://github.com/Cesar1289" target="_blank" rel="noopener">GitHub</a></li>
-      <li><a href="https://www.linkedin.com/" target="_blank" rel="noopener">LinkedIn</a></li>
-      <li><a href="https://www.instagram.com/" target="_blank" rel="noopener">Instagram</a></li>
-      <li><a href="mailto:cesar@example.com">Email</a></li>
-    </ul>
-  </div>
-</footer>
-<script src="script.js"></script>
+                <button onclick="switchTab('home'); document.getElementById('contact-section').scrollIntoView({behavior: 'smooth'})" class="hidden sm:inline-flex items-center px-4 py-2 rounded-xl text-xs font-bold text-white bg-gradient-to-r from-burgundy-800 via-burgundy-700 to-wine-light hover:from-burgundy-900 hover:to-burgundy-800 shadow-md shadow-burgundy-950/30 transition-all duration-300">
+                    <i class="fa-solid fa-envelope mr-1.5"></i> Contact
+                </button>
+
+                <!-- Mobile Navigation Button -->
+                <button id="mobileMenuBtn" class="md:hidden p-2.5 rounded-xl text-stone-700 dark:text-stone-300 hover:bg-burgundy-900/10 dark:hover:bg-burgundy-900/30 focus:outline-none">
+                    <i class="fa-solid fa-bars text-xl" id="menuIcon"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Navigation Menu -->
+        <div id="mobileMenu" class="hidden md:hidden border-b border-burgundy-900/10 dark:border-burgundy-800/20 bg-stone-50/95 dark:bg-[#0f0609]/95 backdrop-blur-lg px-4 pt-2 pb-6 space-y-2">
+            <button onclick="switchTab('home')" class="mobile-nav-btn block w-full text-left px-3 py-2 rounded-lg text-base font-semibold text-stone-800 dark:text-stone-200 hover:bg-burgundy-900/10 dark:hover:bg-burgundy-900/30">Home</button>
+            <button onclick="switchTab('media')" class="mobile-nav-btn block w-full text-left px-3 py-2 rounded-lg text-base font-semibold text-stone-800 dark:text-stone-200 hover:bg-burgundy-900/10 dark:hover:bg-burgundy-900/30">Media Gallery</button>
+            <button onclick="switchTab('future')" class="mobile-nav-btn block w-full text-left px-3 py-2 rounded-lg text-base font-semibold text-stone-800 dark:text-stone-200 hover:bg-burgundy-900/10 dark:hover:bg-burgundy-900/30">5-Year Future</button>
+            <button onclick="switchTab('blog')" class="mobile-nav-btn block w-full text-left px-3 py-2 rounded-lg text-base font-semibold text-stone-800 dark:text-stone-200 hover:bg-burgundy-900/10 dark:hover:bg-burgundy-900/30">Blog &amp; Articles</button>
+            <button onclick="switchTab('projects')" class="mobile-nav-btn block w-full text-left px-3 py-2 rounded-lg text-base font-semibold text-stone-800 dark:text-stone-200 hover:bg-burgundy-900/10 dark:hover:bg-burgundy-900/30">Research &amp; Tech</button>
+        </div>
+    </header>
+
+    <main class="flex-grow pt-24 pb-16">
+
+        <!-- ========================================================= -->
+        <!-- PAGE 1: HOME PAGE -->
+        <!-- ========================================================= -->
+        <div id="page-home" class="page-tab block">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
+
+                <!-- Hero Header Above The Fold -->
+                <div class="glass-card rounded-3xl p-8 sm:p-12 relative overflow-hidden shadow-2xl">
+                    <div class="absolute -right-16 -top-16 w-80 h-80 bg-burgundy-800/15 rounded-full blur-3xl pointer-events-none"></div>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center relative z-10">
+
+                        <!-- Prominent Photo (Above Fold) -->
+                        <div class="lg:col-span-5 flex flex-col items-center justify-center">
+                            <div class="relative group">
+                                <div class="absolute -inset-2 bg-gradient-to-r from-burgundy-700 via-burgundy-800 to-wine-light rounded-full blur-lg opacity-70 group-hover:opacity-100 transition duration-500"></div>
+                                <img src="assets/images/profile.svg" onerror="this.onerror=null; this.src='https://placehold.co/400x400/841931/ffffff?text=Cesar+Espitia'" alt="Cesar Espitia Photo" class="relative w-56 h-56 sm:w-64 sm:h-64 object-cover rounded-full border-4 border-stone-50 dark:border-[#0f0609] shadow-2xl bg-burgundy-950">
+                            </div>
+                            <span class="mt-4 inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-burgundy-900/10 dark:bg-burgundy-950/80 border border-burgundy-800/20 text-burgundy-800 dark:text-burgundy-300 text-xs font-semibold">
+                                <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                                Cars &bull; Gaming &bull; Football &bull; Family
+                            </span>
+                        </div>
+
+                        <!-- Full Name Title H1 and Introduction -->
+                        <div class="lg:col-span-7 text-center lg:text-left space-y-4">
+                            <span class="text-xs font-mono font-extrabold uppercase tracking-widest text-burgundy-800 dark:text-burgundy-400">About Me</span>
+                            <h1 class="text-4xl sm:text-6xl font-extrabold text-stone-900 dark:text-white tracking-tight leading-tight">
+                                Cesar Espitia
+                            </h1>
+                            <p class="text-lg sm:text-xl text-burgundy-800 dark:text-burgundy-300 font-medium">
+                                Student, Car Enthusiast &amp; Lifelong Learner
+                            </p>
+                            <p class="text-sm text-stone-600 dark:text-stone-400 leading-relaxed max-w-xl mx-auto lg:mx-0">
+                                Welcome to my personal space. Explore my interactive biography below, browse my media gallery, check out my 5-year goal roadmap, or read my latest articles!
+                            </p>
+
+                            <!-- Quick Action Buttons -->
+                            <div class="flex flex-wrap items-center justify-center lg:justify-start gap-3 pt-2">
+                                <button onclick="switchTab('media')" class="px-5 py-2.5 rounded-xl text-xs font-bold text-white bg-gradient-to-r from-burgundy-800 via-burgundy-700 to-wine-light hover:from-burgundy-900 hover:to-burgundy-800 shadow-lg shadow-burgundy-950/30 transition-all">
+                                    <i class="fa-solid fa-images mr-1.5"></i> View Media Gallery
+                                </button>
+                                <button onclick="switchTab('future')" class="px-5 py-2.5 rounded-xl text-xs font-bold text-stone-800 dark:text-stone-200 bg-stone-200/70 dark:bg-burgundy-950/60 hover:bg-burgundy-900/20 dark:hover:bg-burgundy-900/40 border border-burgundy-800/20 transition-all">
+                                    <i class="fa-solid fa-compass mr-1.5"></i> 5-Year Roadmap
+                                </button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Interactive Editable Biography Section -->
+                <div class="glass-card rounded-3xl p-8 sm:p-10 space-y-6">
+                    <div class="flex flex-wrap items-center justify-between gap-4 border-b border-burgundy-900/10 dark:border-burgundy-800/30 pb-6">
+                        <div>
+                            <span class="text-xs font-mono font-bold text-burgundy-800 dark:text-burgundy-400 uppercase tracking-wider">About Me</span>
+                            <h2 class="text-2xl sm:text-3xl font-extrabold text-stone-900 dark:text-white">My Biography</h2>
+                        </div>
+
+                        <!-- Interactive Bio Editing Controls -->
+                        <div class="flex items-center gap-2">
+                            <button id="toggleEditBtn" onclick="toggleBioEditing()" class="px-4 py-2 rounded-xl text-xs font-bold text-white bg-burgundy-800 hover:bg-burgundy-900 shadow-md transition-all flex items-center gap-2">
+                                <i class="fa-solid fa-pen-to-square"></i>
+                                <span id="editBtnText">Type / Edit Bio</span>
+                            </button>
+                            <button onclick="resetBiography()" class="p-2 rounded-xl text-xs text-stone-500 hover:text-burgundy-700 dark:hover:text-burgundy-300 border border-stone-300 dark:border-burgundy-800/30" title="Reset to Original Bio">
+                                <i class="fa-solid fa-rotate-left"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Live Edit Indicator Banner -->
+                    <div id="editBanner" class="hidden p-3 rounded-xl bg-burgundy-900/10 dark:bg-burgundy-950/80 border border-burgundy-800/30 text-xs text-burgundy-800 dark:text-burgundy-300 flex items-center justify-between">
+                        <span><i class="fa-solid fa-lightbulb mr-2"></i> <strong>Edit Mode Active:</strong> Click anywhere on the text below to type directly into the biography! Changes auto-save.</span>
+                        <span class="font-mono text-[10px] bg-burgundy-800 text-white px-2 py-0.5 rounded">Exact 3 Paragraphs</span>
+                    </div>
+
+                    <!-- Biography Paragraphs Container (Exactly 3 <p> tags) -->
+                    <div id="biographyContainer" class="space-y-4 text-stone-700 dark:text-stone-300 leading-relaxed text-sm sm:text-base">
+                        <p id="bio-p1" class="bio-paragraph" contenteditable="false">My name is Cesar Espitia, and I enjoy doing a lot of different things in my free time. I really like working on cars and painting them because I enjoy being creative and learning how things work. I also like playing video games and helping my dad with his work. Whenever I have the chance, I like to play football for fun and spend time being active.</p>
+                        <p id="bio-p2" class="bio-paragraph" contenteditable="false">Outside of school I am someone who values personal growth, responsibility, and learning new skills. I enjoy challenging myself with new experiences and finding opportunities to improve both personally and academically. I take pride in being dependable, working well with others, and staying committed to the goals I set for myself. I am always interested in developing new skills and gaining experiences that can help prepare me for my future.</p>
+                        <p id="bio-p3" class="bio-paragraph" contenteditable="false">Looking forward, I aim to bridge the gap between what I learn and the real world around me. Whether I am working on cars, helping others, or building new skills, my goal is to keep growing, stay curious, and make the people around me proud.</p>
+                    </div>
+
+                    <div class="pt-4 flex items-center justify-between text-xs text-stone-500 dark:text-stone-400 font-mono border-t border-burgundy-900/10 dark:border-burgundy-800/20">
+                        <span><i class="fa-solid fa-check-circle text-emerald-500 mr-1"></i> Paragraph Count: <strong>3 &lt;p&gt; tags</strong></span>
+                        <span id="saveStatus">Auto-Saved to Local Storage</span>
+                    </div>
+                </div>
+
+                <!-- Contact Section -->
+                <div id="contact-section" class="glass-card rounded-3xl p-8 sm:p-10 space-y-6">
+                    <div class="text-center max-w-2xl mx-auto space-y-2">
+                        <span class="text-xs font-mono font-bold text-burgundy-800 dark:text-burgundy-400 uppercase tracking-wider">Get In Touch</span>
+                        <h2 class="text-3xl font-extrabold text-stone-900 dark:text-white">Connect &amp; Contact</h2>
+                        <p class="text-xs text-stone-600 dark:text-stone-400">Feel free to reach out for collaborations, questions, or project discussions.</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4">
+                        <a href="mailto:cesar@example.com" class="flex flex-col items-center justify-center p-6 rounded-2xl bg-stone-100 dark:bg-burgundy-950/40 border border-burgundy-900/10 dark:border-burgundy-800/30 hover:border-burgundy-700 transition-all text-center group">
+                            <div class="w-12 h-12 rounded-xl bg-burgundy-800 text-white flex items-center justify-center text-xl mb-3 shadow-md group-hover:scale-110 transition-transform">
+                                <i class="fa-solid fa-envelope"></i>
+                            </div>
+                            <span class="text-xs font-bold text-stone-500 dark:text-stone-400">Email Address</span>
+                            <span class="text-sm font-semibold text-stone-900 dark:text-white mt-1">Update with your email</span>
+                        </a>
+
+                        <a href="https://github.com/Cesar1289" target="_blank" rel="noopener" class="flex flex-col items-center justify-center p-6 rounded-2xl bg-stone-100 dark:bg-burgundy-950/40 border border-burgundy-900/10 dark:border-burgundy-800/30 hover:border-burgundy-700 transition-all text-center group">
+                            <div class="w-12 h-12 rounded-xl bg-burgundy-800 text-white flex items-center justify-center text-xl mb-3 shadow-md group-hover:scale-110 transition-transform">
+                                <i class="fa-brands fa-github"></i>
+                            </div>
+                            <span class="text-xs font-bold text-stone-500 dark:text-stone-400">GitHub Profile</span>
+                            <span class="text-sm font-semibold text-stone-900 dark:text-white mt-1">github.com/Cesar1289</span>
+                        </a>
+
+                        <a href="https://linkedin.com" target="_blank" rel="noopener" class="flex flex-col items-center justify-center p-6 rounded-2xl bg-stone-100 dark:bg-burgundy-950/40 border border-burgundy-900/10 dark:border-burgundy-800/30 hover:border-burgundy-700 transition-all text-center group">
+                            <div class="w-12 h-12 rounded-xl bg-burgundy-800 text-white flex items-center justify-center text-xl mb-3 shadow-md group-hover:scale-110 transition-transform">
+                                <i class="fa-brands fa-linkedin-in"></i>
+                            </div>
+                            <span class="text-xs font-bold text-stone-500 dark:text-stone-400">LinkedIn Network</span>
+                            <span class="text-sm font-semibold text-stone-900 dark:text-white mt-1">Update with your LinkedIn</span>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- ========================================================= -->
+        <!-- PAGE 2: MEDIA GALLERY PAGE -->
+        <!-- ========================================================= -->
+        <div id="page-media" class="page-tab hidden">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
+
+                <div class="text-center max-w-3xl mx-auto space-y-3">
+                    <span class="text-xs font-mono font-extrabold uppercase tracking-widest text-burgundy-800 dark:text-burgundy-400">My Visual Archive</span>
+                    <h1 class="text-3xl sm:text-5xl font-extrabold text-stone-900 dark:text-white tracking-tight">Media Gallery</h1>
+                    <p class="text-sm text-stone-600 dark:text-stone-400">Explore photos, video features, and updates highlighting my journey and my life outside of school.</p>
+                </div>
+
+                <!-- 9 Media Cards Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+                    <!-- Card 1: Video (real video from repo) -->
+                    <div class="glass-card rounded-2xl overflow-hidden group hover:-translate-y-2 hover:border-burgundy-700 transition-all duration-300 flex flex-col justify-between shadow-lg">
+                        <div>
+                            <div class="relative overflow-hidden h-52 bg-burgundy-950">
+                                <video src="assets/videos/cesar-coding.mp4" class="w-full h-full object-cover" controls muted playsinline></video>
+                                <span class="absolute top-3 left-3 px-3 py-1 rounded-full text-[10px] font-mono font-bold bg-burgundy-900/80 text-white backdrop-blur-md">
+                                    <i class="fa-solid fa-video mr-1"></i> Video
+                                </span>
+                            </div>
+                            <div class="p-6 space-y-2">
+                                <h3 class="text-lg font-bold text-stone-900 dark:text-white group-hover:text-burgundy-700 dark:group-hover:text-burgundy-300 transition-colors">Featured Video: Coding Session</h3>
+                                <p class="text-xs text-stone-600 dark:text-stone-400 leading-relaxed">
+                                    A clip of me working on one of my coding projects.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="p-6 pt-0 text-[11px] font-mono text-burgundy-800 dark:text-burgundy-400">
+                            #Coding #Projects
+                        </div>
+                    </div>
+
+                    <!-- Card 2: Photo -->
+                    <div class="glass-card rounded-2xl overflow-hidden group hover:-translate-y-2 hover:border-burgundy-700 transition-all duration-300 flex flex-col justify-between shadow-lg">
+                        <div>
+                            <div class="relative overflow-hidden h-52">
+                                <img src="https://images.unsplash.com/photo-1503376780353-7e66927666b6?auto=format&amp;fit=crop&amp;q=80&amp;w=600" alt="Car passion" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                                <span class="absolute top-3 left-3 px-3 py-1 rounded-full text-[10px] font-mono font-bold bg-burgundy-900/80 text-white backdrop-blur-md">
+                                    <i class="fa-solid fa-camera mr-1"></i> Image
+                                </span>
+                            </div>
+                            <div class="p-6 space-y-2">
+                                <h3 class="text-lg font-bold text-stone-900 dark:text-white group-hover:text-burgundy-700 dark:group-hover:text-burgundy-300 transition-colors">Car Projects &amp; Painting</h3>
+                                <p class="text-xs text-stone-600 dark:text-stone-400 leading-relaxed">
+                                    One of my favorite hobbies: working on cars and painting them to make them look their best.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="p-6 pt-0 text-[11px] font-mono text-burgundy-800 dark:text-burgundy-400">
+                            #Cars #Creativity
+                        </div>
+                    </div>
+
+                    <!-- Card 3: Photo -->
+                    <div class="glass-card rounded-2xl overflow-hidden group hover:-translate-y-2 hover:border-burgundy-700 transition-all duration-300 flex flex-col justify-between shadow-lg">
+                        <div>
+                            <div class="relative overflow-hidden h-52">
+                                <img src="https://images.unsplash.com/photo-1517649763962-0c623066013b?auto=format&amp;fit=crop&amp;q=80&amp;w=600" alt="Football" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                                <span class="absolute top-3 left-3 px-3 py-1 rounded-full text-[10px] font-mono font-bold bg-burgundy-900/80 text-white backdrop-blur-md">
+                                    <i class="fa-solid fa-camera mr-1"></i> Image
+                                </span>
+                            </div>
+                            <div class="p-6 space-y-2">
+                                <h3 class="text-lg font-bold text-stone-900 dark:text-white group-hover:text-burgundy-700 dark:group-hover:text-burgundy-300 transition-colors">Playing Football For Fun</h3>
+                                <p class="text-xs text-stone-600 dark:text-stone-400 leading-relaxed">
+                                    Staying active and having fun playing football whenever I get the chance.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="p-6 pt-0 text-[11px] font-mono text-burgundy-800 dark:text-burgundy-400">
+                            #Football #StayActive
+                        </div>
+                    </div>
+
+                    <!-- Card 4: Photo -->
+                    <div class="glass-card rounded-2xl overflow-hidden group hover:-translate-y-2 hover:border-burgundy-700 transition-all duration-300 flex flex-col justify-between shadow-lg">
+                        <div>
+                            <div class="relative overflow-hidden h-52">
+                                <img src="https://images.unsplash.com/photo-1552820728-8b83bb6b773f?auto=format&amp;fit=crop&amp;q=80&amp;w=600" alt="Gaming setup" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                                <span class="absolute top-3 left-3 px-3 py-1 rounded-full text-[10px] font-mono font-bold bg-burgundy-900/80 text-white backdrop-blur-md">
+                                    <i class="fa-solid fa-camera mr-1"></i> Image
+                                </span>
+                            </div>
+                            <div class="p-6 space-y-2">
+                                <h3 class="text-lg font-bold text-stone-900 dark:text-white group-hover:text-burgundy-700 dark:group-hover:text-burgundy-300 transition-colors">Gaming In My Free Time</h3>
+                                <p class="text-xs text-stone-600 dark:text-stone-400 leading-relaxed">
+                                    Some of my favorite downtime: playing video games with friends.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="p-6 pt-0 text-[11px] font-mono text-burgundy-800 dark:text-burgundy-400">
+                            #Gaming #FreeTime
+                        </div>
+                    </div>
+
+                    <!-- Card 5: Photo -->
+                    <div class="glass-card rounded-2xl overflow-hidden group hover:-translate-y-2 hover:border-burgundy-700 transition-all duration-300 flex flex-col justify-between shadow-lg">
+                        <div>
+                            <div class="relative overflow-hidden h-52">
+                                <img src="https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&amp;fit=crop&amp;q=80&amp;w=600" alt="Helping my dad" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                                <span class="absolute top-3 left-3 px-3 py-1 rounded-full text-[10px] font-mono font-bold bg-burgundy-900/80 text-white backdrop-blur-md">
+                                    <i class="fa-solid fa-camera mr-1"></i> Image
+                                </span>
+                            </div>
+                            <div class="p-6 space-y-2">
+                                <h3 class="text-lg font-bold text-stone-900 dark:text-white group-hover:text-burgundy-700 dark:group-hover:text-burgundy-300 transition-colors">Helping My Dad With His Work</h3>
+                                <p class="text-xs text-stone-600 dark:text-stone-400 leading-relaxed">
+                                    Spending time and learning from my dad while helping him with his work.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="p-6 pt-0 text-[11px] font-mono text-burgundy-800 dark:text-burgundy-400">
+                            #Family #HardWork
+                        </div>
+                    </div>
+
+                    <!-- Card 6: Photo -->
+                    <div class="glass-card rounded-2xl overflow-hidden group hover:-translate-y-2 hover:border-burgundy-700 transition-all duration-300 flex flex-col justify-between shadow-lg">
+                        <div>
+                            <div class="relative overflow-hidden h-52">
+                                <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&amp;fit=crop&amp;q=80&amp;w=600" alt="Study and growth" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                                <span class="absolute top-3 left-3 px-3 py-1 rounded-full text-[10px] font-mono font-bold bg-burgundy-900/80 text-white backdrop-blur-md">
+                                    <i class="fa-solid fa-camera mr-1"></i> Image
+                                </span>
+                            </div>
+                            <div class="p-6 space-y-2">
+                                <h3 class="text-lg font-bold text-stone-900 dark:text-white group-hover:text-burgundy-700 dark:group-hover:text-burgundy-300 transition-colors">Learning New Skills</h3>
+                                <p class="text-xs text-stone-600 dark:text-stone-400 leading-relaxed">
+                                    I enjoy challenging myself with new experiences and growing personally and academically.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="p-6 pt-0 text-[11px] font-mono text-burgundy-800 dark:text-burgundy-400">
+                            #Growth #Learning
+                        </div>
+                    </div>
+
+                    <!-- Card 7: Placeholder -->
+                    <div class="glass-card rounded-2xl overflow-hidden group hover:-translate-y-2 hover:border-burgundy-700 transition-all duration-300 flex flex-col justify-between shadow-lg">
+                        <div>
+                            <div class="p-6 bg-gradient-to-br from-burgundy-950 via-burgundy-900 to-wine-dark text-white space-y-3 min-h-52 flex flex-col justify-center">
+                                <i class="fa-solid fa-image text-3xl opacity-60"></i>
+                                <p class="text-xs italic leading-relaxed">Add your own photo or post here! This site is easy to customize.</p>
+                            </div>
+                            <div class="p-6 space-y-2">
+                                <h3 class="text-lg font-bold text-stone-900 dark:text-white group-hover:text-burgundy-700 dark:group-hover:text-burgundy-300 transition-colors">Your Memory Here</h3>
+                                <p class="text-xs text-stone-600 dark:text-stone-400 leading-relaxed">
+                                    Replace this card with a photo, video, or social post of your choice.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="p-6 pt-0 text-[11px] font-mono text-burgundy-800 dark:text-burgundy-400">
+                            #Custom #AddYours
+                        </div>
+                    </div>
+
+                    <!-- Card 8: Placeholder -->
+                    <div class="glass-card rounded-2xl overflow-hidden group hover:-translate-y-2 hover:border-burgundy-700 transition-all duration-300 flex flex-col justify-between shadow-lg">
+                        <div>
+                            <div class="p-6 bg-gradient-to-br from-burgundy-900 via-wine-dark to-stone-900 text-white space-y-3 min-h-52 flex flex-col justify-center">
+                                <i class="fa-solid fa-photo-film text-3xl opacity-60"></i>
+                                <p class="text-xs italic leading-relaxed">Another spot reserved for a favorite moment or achievement.</p>
+                            </div>
+                            <div class="p-6 space-y-2">
+                                <h3 class="text-lg font-bold text-stone-900 dark:text-white group-hover:text-burgundy-700 dark:group-hover:text-burgundy-300 transition-colors">Another Memory</h3>
+                                <p class="text-xs text-stone-600 dark:text-stone-400 leading-relaxed">
+                                    Replace this card with your own media.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="p-6 pt-0 text-[11px] font-mono text-burgundy-800 dark:text-burgundy-400">
+                            #Custom #AddYours
+                        </div>
+                    </div>
+
+                    <!-- Card 9: Placeholder -->
+                    <div class="glass-card rounded-2xl overflow-hidden group hover:-translate-y-2 hover:border-burgundy-700 transition-all duration-300 flex flex-col justify-between shadow-lg">
+                        <div>
+                            <div class="p-6 bg-gradient-to-br from-burgundy-950 via-wine-dark to-burgundy-900 text-white space-y-3 min-h-52 flex flex-col justify-center">
+                                <i class="fa-solid fa-star text-3xl opacity-60"></i>
+                                <p class="text-xs italic leading-relaxed">A place to highlight an accomplishment you are proud of.</p>
+                            </div>
+                            <div class="p-6 space-y-2">
+                                <h3 class="text-lg font-bold text-stone-900 dark:text-white group-hover:text-burgundy-700 dark:group-hover:text-burgundy-300 transition-colors">Proud Moment</h3>
+                                <p class="text-xs text-stone-600 dark:text-stone-400 leading-relaxed">
+                                    Replace this card with a photo or update of an achievement.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="p-6 pt-0 text-[11px] font-mono text-burgundy-800 dark:text-burgundy-400">
+                            #Custom #AddYours
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- ========================================================= -->
+        <!-- PAGE 3: 5-YEAR FUTURE PAGE -->
+        <!-- ========================================================= -->
+        <div id="page-future" class="page-tab hidden">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+
+                <div class="text-center max-w-3xl mx-auto space-y-3">
+                    <span class="text-xs font-mono font-extrabold uppercase tracking-widest text-burgundy-800 dark:text-burgundy-400">Vision &amp; Aspirations</span>
+                    <h1 class="text-3xl sm:text-5xl font-extrabold text-stone-900 dark:text-white tracking-tight">5-Year Future Roadmap</h1>
+                    <p class="text-sm text-stone-600 dark:text-stone-400">The story of where I hope to be and the milestones planned from 2026 to 2031.</p>
+                </div>
+
+                <!-- Ultimate Goal Highlight Banner -->
+                <div class="glass-card rounded-3xl p-8 sm:p-10 border-2 border-burgundy-700/50 bg-gradient-to-r from-burgundy-950/40 via-burgundy-900/20 to-wine-dark/40 shadow-2xl relative overflow-hidden">
+                    <div class="flex flex-col md:flex-row items-center justify-between gap-6 relative z-10">
+                        <div class="space-y-3 text-center md:text-left">
+                            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-mono font-bold bg-burgundy-800 text-white">
+                                <i class="fa-solid fa-trophy mr-1.5"></i> Ultimate Accomplishable Goal
+                            </span>
+                            <h2 class="text-2xl sm:text-3xl font-extrabold text-stone-900 dark:text-white">
+                                Build A Career Doing What I Love
+                            </h2>
+                            <p class="text-xs sm:text-sm text-stone-600 dark:text-stone-300 max-w-2xl leading-relaxed">
+                                My primary objective over the next 5 years is to keep growing my skills, turn my interests into real opportunities, and build a stable, successful future for myself and my family.
+                            </p>
+                        </div>
+                        <div class="w-full md:w-auto flex flex-col items-center justify-center p-6 rounded-2xl bg-burgundy-900/20 border border-burgundy-800/40">
+                            <span class="text-3xl font-extrabold text-burgundy-800 dark:text-burgundy-300">2031</span>
+                            <span class="text-[11px] font-mono text-stone-500 dark:text-stone-400 mt-1">Target Completion</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Timeline Story (Years 1 to 5) -->
+                <div class="relative border-l-2 border-burgundy-800/40 ml-4 sm:ml-8 md:ml-32 space-y-12">
+
+                    <!-- Year 1 -->
+                    <div class="relative pl-8 group">
+                        <div class="absolute -left-[9px] top-1.5 w-4 h-4 rounded-full bg-burgundy-800 border-4 border-stone-50 dark:border-[#0f0609] group-hover:scale-125 transition-transform"></div>
+                        <div class="md:absolute md:-left-36 md:top-1 md:w-28 text-xs font-mono font-bold text-burgundy-800 dark:text-burgundy-400 mb-1 md:mb-0 md:text-right">
+                            Year 1 (2026-2027)
+                        </div>
+                        <div class="glass-card rounded-2xl p-6 space-y-2">
+                            <h3 class="text-xl font-bold text-stone-900 dark:text-white">Finish Strong &amp; Master New Skills</h3>
+                            <p class="text-xs text-stone-600 dark:text-stone-300 leading-relaxed">
+                                Focus on doing my best in school, keep helping my dad with his work, and continue learning new skills that prepare me for what comes next.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Year 2 -->
+                    <div class="relative pl-8 group">
+                        <div class="absolute -left-[9px] top-1.5 w-4 h-4 rounded-full bg-burgundy-800 border-4 border-stone-50 dark:border-[#0f0609] group-hover:scale-125 transition-transform"></div>
+                        <div class="md:absolute md:-left-36 md:top-1 md:w-28 text-xs font-mono font-bold text-burgundy-800 dark:text-burgundy-400 mb-1 md:mb-0 md:text-right">
+                            Year 2 (2027-2028)
+                        </div>
+                        <div class="glass-card rounded-2xl p-6 space-y-2">
+                            <h3 class="text-xl font-bold text-stone-900 dark:text-white">Gain Real-World Experience</h3>
+                            <p class="text-xs text-stone-600 dark:text-stone-300 leading-relaxed">
+                                Get hands-on experience through a job, training program, or continued education that builds on my strengths and interests.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Year 3 -->
+                    <div class="relative pl-8 group">
+                        <div class="absolute -left-[9px] top-1.5 w-4 h-4 rounded-full bg-burgundy-800 border-4 border-stone-50 dark:border-[#0f0609] group-hover:scale-125 transition-transform"></div>
+                        <div class="md:absolute md:-left-36 md:top-1 md:w-28 text-xs font-mono font-bold text-burgundy-800 dark:text-burgundy-400 mb-1 md:mb-0 md:text-right">
+                            Year 3 (2028-2029)
+                        </div>
+                        <div class="glass-card rounded-2xl p-6 space-y-2">
+                            <h3 class="text-xl font-bold text-stone-900 dark:text-white">Grow My Craft &amp; Community</h3>
+                            <p class="text-xs text-stone-600 dark:text-stone-300 leading-relaxed">
+                                Keep improving at the things I love, whether that means advanced car work, more technical skills, or finding ways to give back and help others.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Year 4 -->
+                    <div class="relative pl-8 group">
+                        <div class="absolute -left-[9px] top-1.5 w-4 h-4 rounded-full bg-burgundy-800 border-4 border-stone-50 dark:border-[#0f0609] group-hover:scale-125 transition-transform"></div>
+                        <div class="md:absolute md:-left-36 md:top-1 md:w-28 text-xs font-mono font-bold text-burgundy-800 dark:text-burgundy-400 mb-1 md:mb-0 md:text-right">
+                            Year 4 (2029-2030)
+                        </div>
+                        <div class="glass-card rounded-2xl p-6 space-y-2">
+                            <h3 class="text-xl font-bold text-stone-900 dark:text-white">Build Stability &amp; Independence</h3>
+                            <p class="text-xs text-stone-600 dark:text-stone-300 leading-relaxed">
+                                Establish myself in a solid career path, become more independent, and start working toward bigger personal goals.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Year 5 -->
+                    <div class="relative pl-8 group">
+                        <div class="absolute -left-[9px] top-1.5 w-4 h-4 rounded-full bg-burgundy-800 border-4 border-stone-50 dark:border-[#0f0609] group-hover:scale-125 transition-transform"></div>
+                        <div class="md:absolute md:-left-36 md:top-1 md:w-28 text-xs font-mono font-bold text-burgundy-800 dark:text-burgundy-400 mb-1 md:mb-0 md:text-right">
+                            Year 5 (2030-2031)
+                        </div>
+                        <div class="glass-card rounded-2xl p-6 space-y-2 border-l-4 border-burgundy-700">
+                            <h3 class="text-xl font-bold text-stone-900 dark:text-white">A Career I Love &amp; A Proud Future</h3>
+                            <p class="text-xs text-stone-600 dark:text-stone-300 leading-relaxed">
+                                Be doing work I am passionate about, supporting my family, and proud of how far I have come since 2026.
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- ========================================================= -->
+        <!-- PAGE 4: BLOG & EDITORIAL ARTICLES -->
+        <!-- ========================================================= -->
+        <div id="page-blog" class="page-tab hidden">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+
+                <div class="text-center max-w-3xl mx-auto space-y-3">
+                    <span class="text-xs font-mono font-extrabold uppercase tracking-widest text-burgundy-800 dark:text-burgundy-400">Editorial &amp; Personal Writing</span>
+                    <h1 class="text-3xl sm:text-5xl font-extrabold text-stone-900 dark:text-white tracking-tight">My Blog &amp; Articles</h1>
+                    <p class="text-sm text-stone-600 dark:text-stone-400">Essays and thoughts written by me. Replace these with your own writing!</p>
+                </div>
+
+                <!-- Featured Article -->
+                <div class="glass-card rounded-3xl p-8 sm:p-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center hover:border-burgundy-700 transition-all">
+                    <div class="lg:col-span-7 space-y-4">
+                        <span class="px-3 py-1 rounded-full text-xs font-mono font-bold bg-burgundy-800 text-white">Featured Post</span>
+                        <h2 class="text-2xl sm:text-4xl font-extrabold text-stone-900 dark:text-white leading-tight">
+                            What Working On Cars Taught Me About Patience
+                        </h2>
+                        <p class="text-xs sm:text-sm text-stone-600 dark:text-stone-300 leading-relaxed">
+                            A personal essay about how painting and fixing cars taught me to slow down, pay attention to detail, and take pride in my work.
+                        </p>
+                        <div class="flex items-center gap-4 text-xs text-stone-500 font-mono">
+                            <span><i class="fa-regular fa-calendar mr-1"></i> Sep 2026</span>
+                            <span><i class="fa-regular fa-clock mr-1"></i> 3 min read</span>
+                        </div>
+                    </div>
+                    <div class="lg:col-span-5">
+                        <img src="https://images.unsplash.com/photo-1489847c栄?auto=format&amp;fit=crop&amp;q=80&amp;w=800" onerror="this.onerror=null; this.src='https://placehold.co/800x600/841931/ffffff?text=Featured+Post'" alt="Featured post" class="rounded-2xl w-full h-64 object-cover shadow-xl">
+                    </div>
+                </div>
+
+                <!-- Blog Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+
+                    <!-- Article 1 -->
+                    <div class="glass-card rounded-2xl p-6 space-y-4 hover:-translate-y-1 hover:border-burgundy-700 transition-all">
+                        <span class="text-[10px] font-mono font-bold text-burgundy-800 dark:text-burgundy-400 uppercase tracking-widest">Personal Growth</span>
+                        <h3 class="text-lg font-bold text-stone-900 dark:text-white">Why I Value Responsibility</h3>
+                        <p class="text-xs text-stone-600 dark:text-stone-400 leading-relaxed">
+                            How helping my dad with his work shaped the way I see hard work and dependability.
+                        </p>
+                        <span class="text-[11px] font-mono text-stone-500 block">Sep 2026 &bull; 3 min read</span>
+                    </div>
+
+                    <!-- Article 2 -->
+                    <div class="glass-card rounded-2xl p-6 space-y-4 hover:-translate-y-1 hover:border-burgundy-700 transition-all">
+                        <span class="text-[10px] font-mono font-bold text-burgundy-800 dark:text-burgundy-400 uppercase tracking-widest">Hobbies</span>
+                        <h3 class="text-lg font-bold text-stone-900 dark:text-white">Gaming, Football, and Staying Active</h3>
+                        <p class="text-xs text-stone-600 dark:text-stone-400 leading-relaxed">
+                            How I balance my favorite hobbies with school, work, and everything else.
+                        </p>
+                        <span class="text-[11px] font-mono text-stone-500 block">Aug 2026 &bull; 3 min read</span>
+                    </div>
+
+                    <!-- Article 3 -->
+                    <div class="glass-card rounded-2xl p-6 space-y-4 hover:-translate-y-1 hover:border-burgundy-700 transition-all">
+                        <span class="text-[10px] font-mono font-bold text-burgundy-800 dark:text-burgundy-400 uppercase tracking-widest">Goals</span>
+                        <h3 class="text-lg font-bold text-stone-900 dark:text-white">Setting Goals I Can Actually Keep</h3>
+                        <p class="text-xs text-stone-600 dark:text-stone-400 leading-relaxed">
+                            My simple approach to staying committed to the goals I set for myself.
+                        </p>
+                        <span class="text-[11px] font-mono text-stone-500 block">Aug 2026 &bull; 2 min read</span>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- ========================================================= -->
+        <!-- PAGE 5: SKILLS & PROJECTS SHOWCASE -->
+        <!-- ========================================================= -->
+        <div id="page-projects" class="page-tab hidden">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+
+                <div class="text-center max-w-3xl mx-auto space-y-3">
+                    <span class="text-xs font-mono font-extrabold uppercase tracking-widest text-burgundy-800 dark:text-burgundy-400">Skills &amp; Projects</span>
+                    <h1 class="text-3xl sm:text-5xl font-extrabold text-stone-900 dark:text-white tracking-tight">My Skills &amp; Tech Showcase</h1>
+                    <p class="text-sm text-stone-600 dark:text-stone-400">Highlighting what I am good at, what I am learning, and projects I am proud of.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+
+                    <!-- Project 1 -->
+                    <div class="glass-card rounded-3xl p-8 space-y-6 hover:border-burgundy-700 transition-all">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <span class="text-xs font-mono font-bold text-burgundy-800 dark:text-burgundy-400 uppercase">Automotive</span>
+                                <h2 class="text-2xl font-bold text-stone-900 dark:text-white mt-1">Car Repair &amp; Painting</h2>
+                            </div>
+                            <span class="p-3 rounded-2xl bg-burgundy-900/10 text-burgundy-800 dark:text-burgundy-300 text-xl"><i class="fa-solid fa-car"></i></span>
+                        </div>
+                        <p class="text-xs sm:text-sm text-stone-600 dark:text-stone-300 leading-relaxed">
+                            Hands-on experience working on and painting cars &mdash; learning how things work and how to be creative with my hands.
+                        </p>
+                        <div class="font-mono text-xs text-burgundy-800 dark:text-burgundy-300 flex flex-wrap gap-2">
+                            <span class="bg-burgundy-900/10 dark:bg-burgundy-950 px-3 py-1 rounded-md border border-burgundy-800/20">Repair</span>
+                            <span class="bg-burgundy-900/10 dark:bg-burgundy-950 px-3 py-1 rounded-md border border-burgundy-800/20">Painting</span>
+                            <span class="bg-burgundy-900/10 dark:bg-burgundy-950 px-3 py-1 rounded-md border border-burgundy-800/20">Detailing</span>
+                        </div>
+                    </div>
+
+                    <!-- Project 2 -->
+                    <div class="glass-card rounded-3xl p-8 space-y-6 hover:border-burgundy-700 transition-all">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <span class="text-xs font-mono font-bold text-burgundy-800 dark:text-burgundy-400 uppercase">Web Development</span>
+                                <h2 class="text-2xl font-bold text-stone-900 dark:text-white mt-1">This Portfolio Website</h2>
+                            </div>
+                            <span class="p-3 rounded-2xl bg-burgundy-900/10 text-burgundy-800 dark:text-burgundy-300 text-xl"><i class="fa-solid fa-code"></i></span>
+                        </div>
+                        <p class="text-xs sm:text-sm text-stone-600 dark:text-stone-300 leading-relaxed">
+                            I built and customized this responsive about-me website myself, complete with a dark mode, editable biography, and multiple pages.
+                        </p>
+                        <div class="font-mono text-xs text-burgundy-800 dark:text-burgundy-300 flex flex-wrap gap-2">
+                            <span class="bg-burgundy-900/10 dark:bg-burgundy-950 px-3 py-1 rounded-md border border-burgundy-800/20">HTML</span>
+                            <span class="bg-burgundy-900/10 dark:bg-burgundy-950 px-3 py-1 rounded-md border border-burgundy-800/20">CSS</span>
+                            <span class="bg-burgundy-900/10 dark:bg-burgundy-950 px-3 py-1 rounded-md border border-burgundy-800/20">JavaScript</span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Universal Footer -->
+    <footer class="border-t border-burgundy-900/10 dark:border-burgundy-900/30 bg-stone-100 dark:bg-[#0a0406] py-8 text-center text-xs text-stone-500 dark:text-stone-400">
+        <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div class="flex items-center gap-2">
+                <div class="w-6 h-6 rounded-md bg-burgundy-800 text-white font-bold text-xs flex items-center justify-center">CE</div>
+                <p>&copy; 2026 Cesar Espitia. About Me Portfolio.</p>
+            </div>
+            <div class="flex items-center space-x-6 font-semibold">
+                <button onclick="switchTab('home')" class="hover:text-burgundy-700 dark:hover:text-burgundy-300">Home</button>
+                <button onclick="switchTab('media')" class="hover:text-burgundy-700 dark:hover:text-burgundy-300">Media</button>
+                <button onclick="switchTab('future')" class="hover:text-burgundy-700 dark:hover:text-burgundy-300">Future</button>
+                <button onclick="switchTab('blog')" class="hover:text-burgundy-700 dark:hover:text-burgundy-300">Blog</button>
+                <button onclick="switchTab('projects')" class="hover:text-burgundy-700 dark:hover:text-burgundy-300">Skills</button>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // ===== Tab Router Logic =====
+        function switchTab(tabName) {
+            document.querySelectorAll('.page-tab').forEach(tab => {
+                tab.classList.add('hidden');
+                tab.classList.remove('block');
+            });
+
+            document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
+
+            const targetPage = document.getElementById('page-' + tabName);
+            if (targetPage) {
+                targetPage.classList.remove('hidden');
+                targetPage.classList.add('block');
+            }
+
+            const targetNav = document.getElementById('nav-' + tabName);
+            if (targetNav) targetNav.classList.add('active');
+
+            const mobileMenu = document.getElementById('mobileMenu');
+            if (mobileMenu) mobileMenu.classList.add('hidden');
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // ===== Biography Editing Logic =====
+        let isEditingBio = false;
+
+        function toggleBioEditing() {
+            isEditingBio = !isEditingBio;
+            const paragraphs = document.querySelectorAll('.bio-paragraph');
+            const editBtnText = document.getElementById('editBtnText');
+            const editBanner = document.getElementById('editBanner');
+            const saveStatus = document.getElementById('saveStatus');
+
+            paragraphs.forEach(p => {
+                p.setAttribute('contenteditable', isEditingBio ? 'true' : 'false');
+            });
+
+            if (isEditingBio) {
+                editBtnText.innerText = "Done / Lock Bio";
+                editBanner.classList.remove('hidden');
+                saveStatus.innerText = "Click inside any paragraph to edit text...";
+            } else {
+                editBtnText.innerText = "Type / Edit Bio";
+                editBanner.classList.add('hidden');
+                saveBioToLocalStorage();
+            }
+        }
+
+        function saveBioToLocalStorage() {
+            const p1 = document.getElementById('bio-p1').innerHTML;
+            const p2 = document.getElementById('bio-p2').innerHTML;
+            const p3 = document.getElementById('bio-p3').innerHTML;
+
+            localStorage.setItem('cesar_bio_p1', p1);
+            localStorage.setItem('cesar_bio_p2', p2);
+            localStorage.setItem('cesar_bio_p3', p3);
+
+            const saveStatus = document.getElementById('saveStatus');
+            saveStatus.innerText = "Auto-Saved to Local Storage (" + new Date().toLocaleTimeString() + ")";
+        }
+
+        function loadBioFromLocalStorage() {
+            const p1 = localStorage.getItem('cesar_bio_p1');
+            const p2 = localStorage.getItem('cesar_bio_p2');
+            const p3 = localStorage.getItem('cesar_bio_p3');
+
+            if (p1) document.getElementById('bio-p1').innerHTML = p1;
+            if (p2) document.getElementById('bio-p2').innerHTML = p2;
+            if (p3) document.getElementById('bio-p3').innerHTML = p3;
+        }
+
+        const DEFAULT_BIO = [
+            "My name is Cesar Espitia, and I enjoy doing a lot of different things in my free time. I really like working on cars and painting them because I enjoy being creative and learning how things work. I also like playing video games and helping my dad with his work. Whenever I have the chance, I like to play football for fun and spend time being active.",
+            "Outside of school I am someone who values personal growth, responsibility, and learning new skills. I enjoy challenging myself with new experiences and finding opportunities to improve both personally and academically. I take pride in being dependable, working well with others, and staying committed to the goals I set for myself. I am always interested in developing new skills and gaining experiences that can help prepare me for my future.",
+            "Looking forward, I aim to bridge the gap between what I learn and the real world around me. Whether I am working on cars, helping others, or building new skills, my goal is to keep growing, stay curious, and make the people around me proud."
+        ];
+
+        function resetBiography() {
+            localStorage.removeItem('cesar_bio_p1');
+            localStorage.removeItem('cesar_bio_p2');
+            localStorage.removeItem('cesar_bio_p3');
+
+            document.getElementById('bio-p1').innerText = DEFAULT_BIO[0];
+            document.getElementById('bio-p2').innerText = DEFAULT_BIO[1];
+            document.getElementById('bio-p3').innerText = DEFAULT_BIO[2];
+
+            document.getElementById('saveStatus').innerText = "Biography reset to default.";
+        }
+
+        // Auto-save on typing
+        document.querySelectorAll('.bio-paragraph').forEach(p => {
+            p.addEventListener('input', () => { saveBioToLocalStorage(); });
+        });
+
+        // ===== Mobile Menu Toggle =====
+        document.getElementById('mobileMenuBtn').addEventListener('click', () => {
+            document.getElementById('mobileMenu').classList.toggle('hidden');
+        });
+
+        // ===== Theme Toggle (remembers preference) =====
+        const themeToggle = document.getElementById('themeToggle');
+        if (themeToggle) {
+            themeToggle.addEventListener('click', () => {
+                document.documentElement.classList.toggle('dark');
+                localStorage.setItem('theme', document.documentElement.classList.contains('dark') ? 'dark' : 'light');
+            });
+        }
+
+        // ===== Initialize on page load =====
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'light') {
+                document.documentElement.classList.remove('dark');
+            } else {
+                document.documentElement.classList.add('dark');
+            }
+            loadBioFromLocalStorage();
+        });
+    </script>
 </body>
 </html>
