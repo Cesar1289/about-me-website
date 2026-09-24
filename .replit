@@ -1,3 +1,0 @@
-run = "npm install && npm start"
-entrypoint = "server.js"
-modules = ["nodejs-20"]
